@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{bootstrap/css/bootstrap.css}">
+
+    <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+    <script src="../static/bootstrap/js/bootstrap.js" th:src="@{bootstrap/js/bootstrap.js}"></script>
+
+</head>
+<body>
+<div class="modal-dialog">
+    <h3>完善个人资料</h3>
+    <form method="post">
+        <div class="form-group">
+            <label for="area">片区</label>
+            <input name="area" type="" class="form-control" id="area">
+        </div>
+        <div class="form-group">
+            <label for="department">部门/专业班级</label>
+            <input name="department" type="" class="form-control" id="department">
+        </div>
+        <div class="form-group">
+            <label for="name">姓名</label>
+            <input name="name" type="" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="phone">电话</label>
+            <input name="phone" type="" class="form-control" id="phone">
+        </div>
+        <div class="form-group">
+            <label for="sex">性别</label>
+            <input name="sex" type="" class="form-control" id="sex">
+        </div>
+        <div class="form-group">
+            <label for="address">住址</label>
+            <input name="address" type="" class="form-control" id="address">
+        </div>
+        <div class="form-group">
+            <label for="isSchool">是否校内人员</label>
+            <select name="isSchool" class="form-control" id="isSchool">
+                <option name="" value="1">是</option>
+                <option name="" value="0">否</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary form-control" onclick="save()">保存</button>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    function save() {
+        $.get("isLogin",function (user) {
+            var area = $("#area").val();
+            var department = $("#department").val();
+            var name = $("#name").val();
+            var phone = $("#phone").val();
+            var sex = $("#sex").val();
+            var address = $("#address").val();
+            var isSchool = $("#isSchool option:selected").val();
+
+            var data={
+                "id" : user.id,
+                "area" : area,
+                "department" : department,
+                "name" : name,
+                "phone" : phone,
+                "sex" : sex,
+                "address" : address,
+                "isSchool" : isSchool
+            }
+
+            $.ajax({
+                type:"post",// get或者post
+                url:"update",// 请求的url地址
+                data: data,//请求的参数
+                dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
+                beforeSend:function(){
+                    // 发送之前就会进入这个函数
+                    // return false 这个ajax就停止了不会发 如果没有return false 就会继续
+                },
+                success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+                    if (data == "1"){
+                        if (user.role == "teacher"){
+                            location.href="teacher";
+                        }
+                        else {
+                            location.href="student";
+                        }
+                    }
+                }
+            })
+
+        })
+    }
+</script>
+</html>

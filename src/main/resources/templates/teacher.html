@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{bootstrap/css/bootstrap.css}">
+
+    <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+    <script src="../static/bootstrap/js/bootstrap.js" th:src="@{bootstrap/js/bootstrap.js}"></script>
+
+</head>
+<body class="text-center">
+<h3>1月10日至今教职工去向登记表</h3>
+<div class="table">
+    <!--<table class="table">-->
+        <!--<tr>-->
+            <!--<th rowspan="2" class="text-center">片区</th>-->
+            <!--<th rowspan="2" class="text-center">部门</th>-->
+            <!--<th rowspan="2" class="text-center">姓名</th>-->
+            <!--<th rowspan="2" class="text-center">电话</th>-->
+            <!--<th rowspan="2" class="text-center">性别</th>-->
+            <!--<th rowspan="2" class="text-center">住址</th>-->
+            <!--<th rowspan="2" class="text-center">是/否校内人员</th>-->
+            <!--<th rowspan="2" class="text-center">是/否未离开过厦门</th>-->
+            <!--<th colspan="4" class="text-center">曾离开厦门后去向情况</th>-->
+            <!--<th rowspan="2" class="text-center">有/无接触湖北疫区人员</th>-->
+            <!--<th rowspan="2" class="text-center">目前健康状况</th>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<th class="text-center">省</th>-->
+            <!--<th class="text-center">市/县</th>-->
+            <!--<th class="text-center">已返厦时间</th>-->
+            <!--<th class="text-center">预计返厦时间</th>-->
+        <!--</tr>-->
+    <!--</table>-->
+    <table class="table">
+        <tr>
+            <th class="text-center">片区</th>
+            <th class="text-center">部门</th>
+            <th class="text-center">姓名</th>
+            <th class="text-center">电话</th>
+            <th class="text-center">性别</th>
+            <th class="text-center">住址</th>
+            <th class="text-center">是/否校内人员</th>
+            <th class="text-center">目前健康状况</th>
+            <th class="text-center">今日报送</th>
+        </tr>
+        <tr id="tr">
+            <!--<td class="text-center">集美区</td>-->
+            <!--<td class="text-center">集美大学</td>-->
+            <!--<td class="text-center">xxx</td>-->
+            <!--<td class="text-center">123456</td>-->
+            <!--<td class="text-center">男</td>-->
+            <!--<td class="text-center">5号楼</td>-->
+            <!--<td class="text-center">是</td>-->
+            <!--<td class="text-center"><a href="list">查看详情</a></td>-->
+        </tr>
+    </table>
+</div>
+</body>
+<script>
+    $(function () {
+        $.get("isLogin",function (user) {
+            if (user.flag == 0){
+                location.href="registerForm";
+            }
+            var td = '';
+            var school = "";
+            if (user.isSchool == 1){
+                school = "是";
+            }
+            else {
+                school = "否";
+            }
+            td +=  '<td class="text-center">'+user.area+'</td>\n' +
+                '            <td class="text-center">'+user.department+'</td>\n' +
+                '            <td class="text-center">'+user.name+'</td>\n' +
+                '            <td class="text-center">'+user.phone+'</td>\n' +
+                '            <td class="text-center">'+user.sex+'</td>\n' +
+                '            <td class="text-center">'+user.address+'</td>\n' +
+                '            <td class="text-center">'+school+'</td>\n' +
+                '            <td class="text-center"><a href="list?userId='+data[i].id+'">查看详情</a></td>\n'+
+                '            <td class="text-center"><a href="record">传送门</a></td>\n';
+            $("#tr").html(td);
+
+        })
+    })
+</script>
+</html>

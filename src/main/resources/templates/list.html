@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{bootstrap/css/bootstrap.css}">
+
+    <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+    <script src="../static/bootstrap/js/bootstrap.js" th:src="@{bootstrap/js/bootstrap.js}"></script>
+
+</head>
+<body class="text-center">
+    <div class="table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center">日期</th>
+                    <th class="text-center">出行地</th>
+                    <th class="text-center">返回日期</th>
+                    <th class="text-center">今日健康状况</th>
+                    <th class="text-center">其它说明</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <!--<tr>-->
+                    <!--<td class="text-center">2020-2-2</td>-->
+                    <!--<td class="text-center">福州</td>-->
+                    <!--<td class="text-center">2020-2-5</td>-->
+                    <!--<td class="text-center">健康</td>-->
+                    <!--<td class="text-center">无</td>-->
+                <!--</tr>-->
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    $(function () {
+        var userId = getParameter("userId");
+        $.get("isLogin",function (user) {
+            // var userId = user.id;
+            var data={
+                "userId" : userId
+            };
+            $.ajax({
+                type:"post",// get或者post
+                url:"show",// 请求的url地址
+                data: data,//请求的参数
+                dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
+                beforeSend:function(){
+                    // 发送之前就会进入这个函数
+                    // return false 这个ajax就停止了不会发 如果没有return false 就会继续
+                },
+                success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+                    var tr = '';
+                    for (var i = 0; i <data.length ; i++) {
+                        tr += '<tr>\n' +
+                            '                    <td class="text-center">'+data[i].time+'</td>\n' +
+                            '                    <td class="text-center">'+data[i].travel+'</td>\n' +
+                            '                    <td class="text-center">'+data[i].backTime+'</td>\n' +
+                            '                    <td class="text-center">'+data[i].healthy+'</td>\n' +
+                            '                    <td class="text-center">'+data[i].remark+'</td>\n' +
+                            '                </tr>';
+                    }
+                    $("#tbody").html(tr);
+                }
+            })
+        })
+    })
+
+    function getParameter(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+        var r = location.search.substr(1).match(reg);
+        if (r!=null) return (r[2]); return null;
+    }
+</script>
+</html>
