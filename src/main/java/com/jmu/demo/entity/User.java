@@ -2,10 +2,7 @@ package com.jmu.demo.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Table(name = "user")
@@ -13,6 +10,7 @@ import javax.persistence.Table;
 public class User {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "username")
     private String username;
@@ -24,16 +22,4 @@ public class User {
     private String role;
     @Column(name = "flag")
     private Integer flag;
-    @Column(name = "area")
-    private String area;
-    @Column(name = "department")
-    private String department;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "sex")
-    private String sex;
-    @Column(name = "address")
-    private String address;
-    @Column(name = "isSchool")
-    private Integer isSchool;
 }

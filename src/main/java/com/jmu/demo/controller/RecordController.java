@@ -4,8 +4,10 @@ import com.jmu.demo.entity.Record;
 import com.jmu.demo.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -16,9 +18,18 @@ public class RecordController {
     private RecordService recordService;
 
     @PostMapping("/addRecord")
-    public @ResponseBody String addRecord(Record record){
+    public String addRecord(Record record, String province, String city, String role){
+        record.setPlace(province+city);
         recordService.addRecord(record);
-        return "1";
+        if (role.equals("teacher")){
+            return "redirect:/teacher";
+        }
+        else if (role.equals("student")){
+            return "redirect:/student";
+        }
+        else {
+            return "redirect:/resident";
+        }
     }
 
     @GetMapping("/record")
@@ -32,8 +43,13 @@ public class RecordController {
     }
 
     @PostMapping("/show")
-    public @ResponseBody List<Record> show(Integer userId){
-        List<Record> list = recordService.findByUserId(userId);
-        return list;
+    public  @ResponseBody List<Record> show(Integer userId, Model model){
+        List<Record> records = recordService.findByUserId(userId);
+        return records;
+    }
+
+    @GetMapping("/dailyForm")
+    public String dailyForm(){
+        return "dailyForm";
     }
 }

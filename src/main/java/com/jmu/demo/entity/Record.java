@@ -17,10 +17,20 @@ public class Record {
     private Date time;
     @Column(name = "travel")
     private String travel;
+    @Column(name = "place")
+    private String place;
     @Column(name = "back_time")
     private String backTime;
     @Column(name = "healthy")
     private String healthy;
+    @Column(name = "heat")
+    private String heat;
+    @Column(name = "isIll")
+    private String isIll;
+    @Column(name = "isTouch")
+    private String isTouch;
+    @Column(name = "isQuarantine")
+    private String isQuarantine;
     @Column(name = "remark")
     private String remark;
     @Column(name = "userId")

@@ -64,8 +64,11 @@
                         if (user.role == "teacher"){
                             location.href="teacher";
                         }
-                        else {
+                        else if (user.role == "student") {
                             location.href="student";
+                        }
+                        else {
+                            location.href="resident";
                         }
                     }
                 }

@@ -10,11 +10,10 @@
 
 </head>
 <body class="text-center">
-<h3>1月10日至今教职工去向登记表</h3>
+<a class="btn btn-sm btn-primary" href="registerForm">完善/修改个人资料</a>
 <div class="table">
     <!--<table class="table">-->
         <!--<tr>-->
-            <!--<th rowspan="2" class="text-center">片区</th>-->
             <!--<th rowspan="2" class="text-center">部门</th>-->
             <!--<th rowspan="2" class="text-center">姓名</th>-->
             <!--<th rowspan="2" class="text-center">电话</th>-->
@@ -35,22 +34,22 @@
     <!--</table>-->
     <table class="table">
         <tr>
-            <th class="text-center">片区</th>
             <th class="text-center">部门</th>
             <th class="text-center">姓名</th>
+            <th class="text-center">籍贯</th>
             <th class="text-center">电话</th>
             <th class="text-center">性别</th>
             <th class="text-center">住址</th>
             <th class="text-center">是/否校内人员</th>
             <th class="text-center">目前健康状况</th>
-            <th class="text-center">今日报送</th>
+            <th class="text-center">今日健康打卡</th>
         </tr>
         <tr id="tr">
             <!--<td class="text-center">集美区</td>-->
-            <!--<td class="text-center">集美大学</td>-->
-            <!--<td class="text-center">xxx</td>-->
-            <!--<td class="text-center">123456</td>-->
-            <!--<td class="text-center">男</td>-->
+            <!--<td class="text-center" th:text="${teacher.department}">集美大学</td>-->
+            <!--<td class="text-center" th:text="${teacher.name}">xxx</td>-->
+            <!--<td class="text-center" th:text="${teacher.phone}">123456</td>-->
+            <!--<td class="text-center" th:text="${teacher.sex}">男</td>-->
             <!--<td class="text-center">5号楼</td>-->
             <!--<td class="text-center">是</td>-->
             <!--<td class="text-center"><a href="list">查看详情</a></td>-->
@@ -64,26 +63,61 @@
             if (user.flag == 0){
                 location.href="registerForm";
             }
-            var td = '';
-            var school = "";
-            if (user.isSchool == 1){
-                school = "是";
-            }
             else {
-                school = "否";
+                var data = {
+                    "id" : user.id
+                }
+                $.ajax({
+                    type:"post",// get或者post
+                    url:"findOneTeacher",// 请求的url地址
+                    data: data,//请求的参数
+                    dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
+                    beforeSend:function(){
+                        // 发送之前就会进入这个函数
+                        // return false 这个ajax就停止了不会发 如果没有return false 就会继续
+                    },
+                    success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+                        var td = '';
+                        var school = "";
+                        if (data.isSchool == 1){
+                            school = "是";
+                        }
+                        else {
+                            school = "否";
+                        }
+                        td += '<td class="text-center">'+data.department+'</td>\n' +
+                            '            <td class="text-center">'+data.name+'</td>\n' +
+                            '            <td class="text-center">'+data.area+'</td>\n' +
+                            '            <td class="text-center">'+data.phone+'</td>\n' +
+                            '            <td class="text-center">'+data.sex+'</td>\n' +
+                            '            <td class="text-center">'+data.address+'</td>\n' +
+                            '            <td class="text-center">'+school+'</td>\n' +
+                            '            <td class="text-center"><a href="list" ">查看详情</a></td>\n'+
+                            '            <td class="text-center"><a href="dailyForm">传送门</a></td>\n';
+                        $("#tr").html(td);
+                    }
+                });
+                // '+data.userId+'
             }
-            td +=  '<td class="text-center">'+user.area+'</td>\n' +
-                '            <td class="text-center">'+user.department+'</td>\n' +
-                '            <td class="text-center">'+user.name+'</td>\n' +
-                '            <td class="text-center">'+user.phone+'</td>\n' +
-                '            <td class="text-center">'+user.sex+'</td>\n' +
-                '            <td class="text-center">'+user.address+'</td>\n' +
-                '            <td class="text-center">'+school+'</td>\n' +
-                '            <td class="text-center"><a href="list?userId='+data[i].id+'">查看详情</a></td>\n'+
-                '            <td class="text-center"><a href="record">传送门</a></td>\n';
-            $("#tr").html(td);
-
         })
     })
+    // function show(userId) {
+    //     var data = {
+    //         "userId" : userId
+    //     }
+    //     $.ajax({
+    //         type:"post",// get或者post
+    //         url:"show",// 请求的url地址
+    //         data: data,//请求的参数
+    //         dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
+    //         beforeSend:function(){
+    //             // 发送之前就会进入这个函数
+    //             // return false 这个ajax就停止了不会发 如果没有return false 就会继续
+    //         },
+    //         success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+    //
+    //         }
+    //     })
+    // }
 </script>
 </html>

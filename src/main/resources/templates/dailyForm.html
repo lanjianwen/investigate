@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{bootstrap/css/bootstrap.css}">
+
+    <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+    <script src="../static/bootstrap/js/bootstrap.js" th:src="@{bootstrap/js/bootstrap.js}"></script>
+
+</head>
+<body>
+<form class="form-horizontal" role="form" id="form" method="post" th:action="@{/addRecord}">
+    <input id="userId" type="number" value="5" hidden name="userId">
+    <input id="role" type="text" value="5" hidden name="role">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">姓名</label>
+        <div class="col-sm-10">
+            <input type="text" placeholder="姓名" name="name" id="name">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">姓别</label>
+        <div class="col-sm-10">
+            <label>
+                <input name="sex" type="radio" checked value="1">
+                男
+            </label>
+            <label>
+                <input name="sex" type="radio" checked value="0">
+                女
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">电话</label>
+        <div class="col-sm-10">
+            <input type="text" placeholder="电话" name="phone" id="phone">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">当前位置</label>
+        <div class="col-sm-10">
+            <input type="text" placeholder="" name="province"><strong>省</strong>
+            <input type="text" placeholder="" name="city"><strong>市/县</strong>
+        </div>
+    </div>
+
+    <!--<div class="form-group">-->
+        <!--<label class="col-sm-2 control-label"></label>-->
+        <!--<div class="col-sm-10">-->
+            <!--<textarea class="form-control" rows="4" placeholder="详细地址：如道路，小区，门牌号，楼栋号等"></textarea>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="form-group">
+        <div class="checkbox">
+            <label class="col-lg-offset-2">
+                <input type="checkbox" value=""><strong>未离开过厦门（请勾选）</strong>
+            </label>
+        </div>
+    </div>
+
+    <!--<div class="form-group">-->
+        <!--<label class="col-sm-2 control-label">已返厦时间</label>-->
+        <!--<div class="col-sm-10">-->
+            <!--<input type="text" placeholder="">-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">预计或已返厦时间</label>
+        <div class="col-sm-10">
+            <input type="date" placeholder="" name="backTime">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">今日体温</label>
+        <div class="col-sm-10">
+            <input type="text" name="heat"><strong>摄氏度</strong>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-offset-1 control-label">1.目前身体出现的症状（可多选）</label>
+    </div>
+    <div class="checkbox">
+        <label class="col-lg-offset-1">
+            <input type="checkbox" value="无症状">无症状
+        </label>
+        <label>
+            <input type="checkbox" value="发热（37度以上）">发热（37度以上）
+        </label>
+        <label>
+            <input type="checkbox" value="咳嗽">咳嗽
+        </label>
+    </div>
+
+    <div class="checkbox">
+        <label class="col-lg-offset-1">
+            <input type="checkbox" value="乏力">乏力
+        </label>
+        <label>
+            <input type="checkbox" value="腹泻">腹泻
+        </label>
+        <label>
+            <input type="checkbox" value="呼吸困难">呼吸困难
+        </label>
+        <label>
+            <input type="checkbox" value="感冒">感冒
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-offset-1 control-label">2.是否被确诊为新型冠状病毒肺炎病例？</label>
+    </div>
+    <label class="col-lg-offset-2">
+        <input name="isIll" type="radio" checked value="是">
+        是
+    </label>
+    <label>
+        <input name="isIll" type="radio" checked value="否">
+        否
+    </label>
+
+    <div class="form-group">
+        <label class="col-lg-offset-1 control-label">3.是否是高度疑似新型灌装病毒肺炎人员且隔离？</label>
+    </div>
+    <label class="col-lg-offset-2">
+        <input name="isQuarantine" type="radio" checked value="是">
+        是
+    </label>
+    <label>
+        <input name="isQuarantine" type="radio" checked value="否">
+        否
+    </label>
+
+    <div class="form-group">
+        <label class="col-lg-offset-1 control-label">4.是否接触过湖北疫区人员？</label>
+    </div>
+    <label class="col-lg-offset-2">
+        <input name="isTouch" type="radio" checked value="是">
+        是
+    </label>
+    <label>
+        <input name="isTouch" type="radio" checked value="否">
+        否
+    </label>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary form-control" onclick="save()">提交</button>
+    </div>
+    <p></p>
+</form>
+</body>
+<script>
+    $(function () {
+        $.get("isLogin",function (user) {
+            $("#userId").val(user.id);
+            $("#role").val(user.role);
+
+            $("#name").val(user.name);
+            $("#phone").val(user.phone);
+        })
+
+    })
+
+</script>
+</html>

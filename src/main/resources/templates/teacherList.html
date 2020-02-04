@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{bootstrap/css/bootstrap.css}">
+
+    <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+    <script src="../static/bootstrap/js/bootstrap.js" th:src="@{bootstrap/js/bootstrap.js}"></script>
+
+</head>
+<body class="text-center">
+<h3></h3>
+<!--<table class="table">-->
+    <!--<tr>-->
+        <!--<th rowspan="2" class="text-center">部门</th>-->
+        <!--<th rowspan="2" class="text-center">姓名</th>-->
+        <!--<th rowspan="2" class="text-center">籍贯</th>-->
+        <!--<th rowspan="2" class="text-center">电话</th>-->
+        <!--<th rowspan="2" class="text-center">是/否未离开过厦门</th>-->
+        <!--<th colspan="4" class="text-center">曾离开厦门后去向情况</th>-->
+        <!--<th rowspan="2" class="text-center">有/无接触湖北疫区人员</th>-->
+        <!--<th rowspan="2" class="text-center">健康状况</th>-->
+    <!--</tr>-->
+    <!--<tr>-->
+        <!--<th class="text-center">省</th>-->
+        <!--<th class="text-center">市/县</th>-->
+        <!--<th class="text-center">已返厦时间</th>-->
+        <!--<th class="text-center">预计返厦时间</th>-->
+    <!--</tr>-->
+    <!--<tbody id="teacher">-->
+        <!--<tr>-->
+            <!--<td class="text-center"></td>-->
+            <!--<td class="text-center"></td>-->
+            <!--<td class="text-center"></td>-->
+            <!--<td class="text-center"></td>-->
+            <!--<td class="text-center"></td>-->
+            <!--<td class="text-center"></td>-->
+            <!--<td class="text-center"></td>-->
+            <!--<td class="text-center"></td>-->
+            <!--<td class="text-center"></td>-->
+            <!--<td class="text-center"></td>-->
+        <!--</tr>-->
+    <!--</tbody>-->
+<!--</table>-->
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-center">部门</th>
+            <th class="text-center">姓名</th>
+            <th class="text-center">籍贯</th>
+            <th class="text-center">电话</th>
+            <th class="text-center">性别</th>
+            <th class="text-center">住址</th>
+            <th class="text-center">是/否校内人员</th>
+            <th class="text-center">目前健康状况</th>
+        </tr>
+        </thead>
+        <tbody id="teacher">
+
+        </tbody>
+    </table>
+
+</body>
+<script>
+    $(function () {
+        // var data = {
+        //     "role" : "teacher"
+        // };
+        $.ajax({
+            type:"get",// get或者post
+            url:"findTeachers",// 请求的url地址
+            // data: data,
+            dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
+            beforeSend:function(){
+                // 发送之前就会进入这个函数
+                // return false 这个ajax就停止了不会发 如果没有return false 就会继续
+            },
+            success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+                var teacher = '';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].isSchool == 1){
+                        school = "是";
+                    }
+                    else {
+                        school = "否";
+                    }
+                    teacher +='<tr>\n' +
+                        '            <td class="text-center">'+data[i].department+'</td>\n' +
+                        '            <td class="text-center">'+data[i].name+'</td>\n' +
+                        '            <td class="text-center">'+data[i].area+'</td>\n' +
+                        '            <td class="text-center">'+data[i].phone+'</td>\n' +
+                        '            <td class="text-center">'+data[i].sex+'</td>\n' +
+                        '            <td class="text-center">'+data[i].address+'</td>\n' +
+                        '            <td class="text-center">'+school+'</td>\n' +
+                        '            <td class="text-center"><a href="list?userId='+data[i].userId+'">查看详情</a></td>\n' +
+                        '        </tr>';
+                }
+                $("#teacher").html(teacher);
+            }
+        })
+    })
+</script>
+</html>

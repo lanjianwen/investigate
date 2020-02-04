@@ -32,6 +32,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#tab1" data-toggle="tab">教职工信息</a></li>
                 <li><a href="#tab2" data-toggle="tab">学生信息</a></li>
+                <li><a href="#tab3" data-toggle="tab">居民信息</a></li>
             </ul>
         </div>
 
@@ -41,9 +42,9 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th class="text-center">片区</th>
                             <th class="text-center">部门</th>
                             <th class="text-center">姓名</th>
+                            <th class="text-center">籍贯</th>
                             <th class="text-center">电话</th>
                             <th class="text-center">性别</th>
                             <th class="text-center">住址</th>
@@ -60,9 +61,9 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th class="text-center">片区</th>
                             <th class="text-center">专业班级</th>
                             <th class="text-center">姓名</th>
+                            <th class="text-center">籍贯</th>
                             <th class="text-center">电话</th>
                             <th class="text-center">性别</th>
                             <th class="text-center">住址</th>
@@ -71,6 +72,25 @@
                         </tr>
                         </thead>
                         <tbody id="student">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="tab3">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th class="text-center">片区</th>
+                            <th class="text-center">姓名</th>
+                            <th class="text-center">籍贯</th>
+                            <th class="text-center">电话</th>
+                            <th class="text-center">性别</th>
+                            <th class="text-center">住址</th>
+                            <th class="text-center">是/否校内人员</th>
+                            <th class="text-center">目前健康状况</th>
+                        </tr>
+                        </thead>
+                        <tbody id="resident">
 
                         </tbody>
                     </table>
@@ -85,9 +105,10 @@
 
 <script>
     $(function () {
+        var school ="";
         $.ajax({
             type:"get",// get或者post
-            url:"findAll",// 请求的url地址
+            url:"findTeachers",// 请求的url地址
             dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
             beforeSend:function(){
                 // 发送之前就会进入这个函数
@@ -95,8 +116,6 @@
             },
             success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
                 var teacher = '';
-                var student = '';
-                var school = "";
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].isSchool == 1){
                         school = "是";
@@ -104,37 +123,85 @@
                     else {
                         school = "否";
                     }
-                    if (data[i].role == "teacher"){
-                        teacher +='<tr>\n' +
-                            '            <td class="text-center">'+data[i].area+'</td>\n' +
-                            '            <td class="text-center">'+data[i].department+'</td>\n' +
-                            '            <td class="text-center">'+data[i].name+'</td>\n' +
-                            '            <td class="text-center">'+data[i].phone+'</td>\n' +
-                            '            <td class="text-center">'+data[i].sex+'</td>\n' +
-                            '            <td class="text-center">'+data[i].address+'</td>\n' +
-                            '            <td class="text-center">'+school+'</td>\n' +
-                            '            <td class="text-center"><a href="list?userId='+data[i].id+'">查看详情</a></td>\n' +
-                            '        </tr>';
-                    }
-                    else if (data[i].role == "student") {
-                        student +='<tr>\n' +
-                            '            <td class="text-center">'+data[i].area+'</td>\n' +
-                            '            <td class="text-center">'+data[i].department+'</td>\n' +
-                            '            <td class="text-center">'+data[i].name+'</td>\n' +
-                            '            <td class="text-center">'+data[i].phone+'</td>\n' +
-                            '            <td class="text-center">'+data[i].sex+'</td>\n' +
-                            '            <td class="text-center">'+data[i].address+'</td>\n' +
-                            '            <td class="text-center">'+school+'</td>\n' +
-                            '            <td class="text-center"><a href="list?userId='+data[i].id+'">查看详情</a></td>\n' +
-                            '        </tr>';
-                    }
+                    teacher +='<tr>\n' +
+                        '            <td class="text-center">'+data[i].department+'</td>\n' +
+                        '            <td class="text-center">'+data[i].name+'</td>\n' +
+                        '            <td class="text-center">'+data[i].area+'</td>\n' +
+                        '            <td class="text-center">'+data[i].phone+'</td>\n' +
+                        '            <td class="text-center">'+data[i].sex+'</td>\n' +
+                        '            <td class="text-center">'+data[i].address+'</td>\n' +
+                        '            <td class="text-center">'+school+'</td>\n' +
+                        '            <td class="text-center"><a href="list?userId='+data[i].userId+'">查看详情</a></td>\n' +
+                        '        </tr>';
                 }
                 $("#teacher").html(teacher);
-                $("#student").html(student);
-
             }
         })
-    })
+
+        $.ajax({
+            type:"get",// get或者post
+            url:"findStudents",// 请求的url地址
+            dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
+            beforeSend:function(){
+                // 发送之前就会进入这个函数
+                // return false 这个ajax就停止了不会发 如果没有return false 就会继续
+            },
+            success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+                var student = '';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].isSchool == 1){
+                        school = "是";
+                    }
+                    else {
+                        school = "否";
+                    }
+                    student +='<tr>\n' +
+                        '            <td class="text-center">'+data[i].department+'</td>\n' +
+                        '            <td class="text-center">'+data[i].name+'</td>\n' +
+                        '            <td class="text-center">'+data[i].area+'</td>\n' +
+                        '            <td class="text-center">'+data[i].phone+'</td>\n' +
+                        '            <td class="text-center">'+data[i].sex+'</td>\n' +
+                        '            <td class="text-center">'+data[i].address+'</td>\n' +
+                        '            <td class="text-center">'+school+'</td>\n' +
+                        '            <td class="text-center"><a href="list?userId='+data[i].userId+'">查看详情</a></td>\n' +
+                        '        </tr>';
+                }
+                $("#student").html(student);
+            }
+        })
+
+        $.ajax({
+            type:"get",// get或者post
+            url:"findResidents",// 请求的url地址
+            dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
+            beforeSend:function(){
+                // 发送之前就会进入这个函数
+                // return false 这个ajax就停止了不会发 如果没有return false 就会继续
+            },
+            success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+                var resident = '';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].isSchool == 1){
+                        school = "是";
+                    }
+                    else {
+                        school = "否";
+                    }
+                    resident +='<tr>\n' +
+                        '            <td class="text-center">'+data[i].area+'</td>\n' +
+                        '            <td class="text-center">'+data[i].name+'</td>\n' +
+                        '            <td class="text-center">'+data[i].area+'</td>\n' +
+                        '            <td class="text-center">'+data[i].phone+'</td>\n' +
+                        '            <td class="text-center">'+data[i].sex+'</td>\n' +
+                        '            <td class="text-center">'+data[i].address+'</td>\n' +
+                        '            <td class="text-center">'+school+'</td>\n' +
+                        '            <td class="text-center"><a href="list?userId='+data[i].userId+'">查看详情</a></td>\n' +
+                        '        </tr>';
+                }
+                $("#resident").html(resident);
+            }
+        })
+    });
 </script>
 
 </html>

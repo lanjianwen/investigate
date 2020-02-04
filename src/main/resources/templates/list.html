@@ -22,12 +22,12 @@
                 </tr>
             </thead>
             <tbody id="tbody">
-                <!--<tr>-->
-                    <!--<td class="text-center">2020-2-2</td>-->
-                    <!--<td class="text-center">福州</td>-->
-                    <!--<td class="text-center">2020-2-5</td>-->
-                    <!--<td class="text-center">健康</td>-->
-                    <!--<td class="text-center">无</td>-->
+                <!--<tr th:each="record:${records}">-->
+                    <!--<td class="text-center" th:text="${record.time}">2020-2-2</td>-->
+                    <!--<td class="text-center" th:text="${record.travel}">福州</td>-->
+                    <!--<td class="text-center" th:text="${record.backTime}">2020-2-5</td>-->
+                    <!--<td class="text-center" th:text="${record.healthy}">健康</td>-->
+                    <!--<td class="text-center" th:text="${record.remark}">无</td>-->
                 <!--</tr>-->
             </tbody>
         </table>
@@ -38,9 +38,16 @@
         var userId = getParameter("userId");
         $.get("isLogin",function (user) {
             // var userId = user.id;
-            var data={
-                "userId" : userId
-            };
+            if (user.role == "admin"){
+                var data = {
+                    "userId" : userId
+                }
+            }
+            else {
+                var data={
+                    "userId" : user.id
+                };
+            }
             $.ajax({
                 type:"post",// get或者post
                 url:"show",// 请求的url地址

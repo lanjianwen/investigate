@@ -13,8 +13,12 @@
 <div class="modal-dialog">
     <h3>完善个人资料</h3>
     <form method="post">
+        <!--<div class="form-group">-->
+            <!--<label for="area">片区</label>-->
+            <!--<input name="area" type="" class="form-control" id="area">-->
+        <!--</div>-->
         <div class="form-group">
-            <label for="area">片区</label>
+            <label for="area">籍贯</label>
             <input name="area" type="" class="form-control" id="area">
         </div>
         <div class="form-group">
@@ -25,10 +29,10 @@
             <label for="name">姓名</label>
             <input name="name" type="" class="form-control" id="name">
         </div>
-        <div class="form-group">
-            <label for="phone">电话</label>
-            <input name="phone" type="" class="form-control" id="phone">
-        </div>
+        <!--<div class="form-group">-->
+            <!--<label for="phone">电话</label>-->
+            <!--<input name="phone" type="" class="form-control" id="phone">-->
+        <!--</div>-->
         <div class="form-group">
             <label for="sex">性别</label>
             <input name="sex" type="" class="form-control" id="sex">
@@ -56,38 +60,54 @@
             var area = $("#area").val();
             var department = $("#department").val();
             var name = $("#name").val();
-            var phone = $("#phone").val();
             var sex = $("#sex").val();
             var address = $("#address").val();
             var isSchool = $("#isSchool option:selected").val();
 
             var data={
-                "id" : user.id,
                 "area" : area,
                 "department" : department,
                 "name" : name,
-                "phone" : phone,
+                "phone" : user.phone,
                 "sex" : sex,
                 "address" : address,
-                "isSchool" : isSchool
+                "isSchool" : isSchool,
+                "userId" : user.id
             }
 
+            var url = "";
+            if (user.role == "teacher"){
+                url = "updateTeacher";
+            }
+            else if(user.role == "student"){
+                url = "updateStudent";
+            }
+            else {
+                url = "updateResident";
+            }
             $.ajax({
                 type:"post",// get或者post
-                url:"update",// 请求的url地址
+                url:url,// 请求的url地址
                 data: data,//请求的参数
                 dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
                 beforeSend:function(){
                     // 发送之前就会进入这个函数
                     // return false 这个ajax就停止了不会发 如果没有return false 就会继续
+                    if (area == ""|| department == "" || name == "" || sex == "" || address == ""){
+                        alert("信息填写不完整");
+                        return false;
+                    }
                 },
                 success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
                     if (data == "1"){
                         if (user.role == "teacher"){
                             location.href="teacher";
                         }
-                        else {
+                        else if (user.role == "student") {
                             location.href="student";
+                        }
+                        else {
+                            location.href="resident";
                         }
                     }
                 }

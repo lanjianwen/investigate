@@ -11,4 +11,8 @@ public interface UserService {
     void updateUser(User user);
 
     List<User> findAll();
+
+    List<User> findByRole(String role);
+
+    boolean addUser(User user);
 }

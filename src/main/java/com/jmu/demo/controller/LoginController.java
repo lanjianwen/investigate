@@ -16,12 +16,23 @@ public class LoginController {
 
     @PostMapping("/login")
     public @ResponseBody String login(String phone, String password, String role, HttpServletRequest request){
+        if (phone.isEmpty() || password.isEmpty()){
+            return "0";
+        }
         User user = userService.findByPhone(phone);
 
         if (user != null){
             if (user.getPassword().equals(password) && user.getRole().equals(role)){
                 request.getSession().setAttribute("user",user);
-                return "1";
+                if (user.getPhone().equals("admint")){
+                    return "3";
+                }
+                else if (user.getPhone().equals("admins")){
+                    return "4";
+                }
+                else {
+                    return "1";
+                }
             }
             else {
                 return "2";

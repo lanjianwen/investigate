@@ -12,25 +12,25 @@
 <body class="text-center">
 <a class="btn btn-sm btn-primary" href="registerForm">完善/修改个人资料</a>
 <!--<table class="table">-->
-    <!--<tr>-->
-        <!--<th rowspan="2" class="text-center">专业班级</th>-->
-        <!--<th rowspan="2" class="text-center">姓名</th>-->
-        <!--<th rowspan="2" class="text-center">电话</th>-->
-        <!--<th rowspan="2" class="text-center">是/否未离开过厦门</th>-->
-        <!--<th colspan="4" class="text-center">曾离开厦门后去向情况</th>-->
-        <!--<th rowspan="2" class="text-center">有/无接触湖北疫区人员</th>-->
-        <!--<th rowspan="2" class="text-center">目前健康状况</th>-->
-    <!--</tr>-->
-    <!--<tr>-->
-        <!--<th class="text-center">省</th>-->
-        <!--<th class="text-center">市/县</th>-->
-        <!--<th class="text-center">已返厦时间</th>-->
-        <!--<th class="text-center">预计返厦时间</th>-->
-    <!--</tr>-->
+<!--<tr>-->
+<!--<th rowspan="2" class="text-center">专业班级</th>-->
+<!--<th rowspan="2" class="text-center">姓名</th>-->
+<!--<th rowspan="2" class="text-center">电话</th>-->
+<!--<th rowspan="2" class="text-center">是/否未离开过厦门</th>-->
+<!--<th colspan="4" class="text-center">曾离开厦门后去向情况</th>-->
+<!--<th rowspan="2" class="text-center">有/无接触湖北疫区人员</th>-->
+<!--<th rowspan="2" class="text-center">目前健康状况</th>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<th class="text-center">省</th>-->
+<!--<th class="text-center">市/县</th>-->
+<!--<th class="text-center">已返厦时间</th>-->
+<!--<th class="text-center">预计返厦时间</th>-->
+<!--</tr>-->
 <!--</table>-->
 <table class="table">
     <tr>
-        <th class="text-center">专业班级</th>
+        <th class="text-center">片区</th>
         <th class="text-center">姓名</th>
         <th class="text-center">籍贯</th>
         <th class="text-center">电话</th>
@@ -38,7 +38,7 @@
         <th class="text-center">住址</th>
         <th class="text-center">是/否校内人员</th>
         <th class="text-center">目前健康状况</th>
-        <th class="text-center">今日健康打卡</th>
+        <th class="text-center">今日报送</th>
     </tr>
     <tr id="tr">
         <!--<td class="text-center">集美区</td>-->
@@ -64,7 +64,7 @@
                 }
                 $.ajax({
                     type:"post",// get或者post
-                    url:"findOneStudent",// 请求的url地址
+                    url:"findOneResident",// 请求的url地址
                     data: data,//请求的参数
                     dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
                     beforeSend:function(){
@@ -80,7 +80,7 @@
                         else {
                             school = "否";
                         }
-                        td += '<td class="text-center">'+data.department+'</td>\n' +
+                        td += '<td class="text-center">'+data.area+'</td>\n' +
                             '            <td class="text-center">'+data.name+'</td>\n' +
                             '            <td class="text-center">籍贯</td>\n' +
                             '            <td class="text-center">'+data.phone+'</td>\n' +
