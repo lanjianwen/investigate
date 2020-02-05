@@ -4,6 +4,7 @@ import com.jmu.demo.entity.User;
 import com.jmu.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,7 +16,7 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping("/login")
-    public @ResponseBody String login(String phone, String password, String role, HttpServletRequest request){
+    public  @ResponseBody String login(String phone, String password, String role, HttpServletRequest request, Model model){
         if (phone.isEmpty() || password.isEmpty()){
             return "0";
         }

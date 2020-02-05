@@ -24,7 +24,7 @@ public class Record {
     @Column(name = "healthy")
     private String healthy;
     @Column(name = "heat")
-    private String heat;
+    private double heat;
     @Column(name = "isIll")
     private String isIll;
     @Column(name = "isTouch")

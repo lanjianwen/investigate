@@ -4,9 +4,11 @@
     <title>Home</title>
 
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrapValidator.min.css" th:href="@{bootstrap/css/bootstrapValidator.min.css}">
 
     <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
     <script src="../static/bootstrap/js/bootstrap.js" th:src="@{bootstrap/js/bootstrap.js}"></script>
+    <!--<script src="../static/bootstrap/js/bootstrapValidator.min.js" th:src="@{bootstrap/js/bootstrapValidator.min.js}"></script>-->
 
 </head>
 <body>
@@ -81,7 +83,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">今日体温</label>
         <div class="col-sm-10">
-            <input type="text" name="heat"><strong>摄氏度</strong>
+            <input type="number" min="0.0" step="0.1" name="heat" value="36.5"><strong>摄氏度</strong>
         </div>
     </div>
 
@@ -90,10 +92,10 @@
     </div>
     <div class="checkbox">
         <label class="col-lg-offset-1">
-            <input type="checkbox" value="无症状">无症状
+            <input name="checkbox" type="checkbox" value="无症状">无症状
         </label>
         <label>
-            <input type="checkbox" value="发热（37度以上）">发热（37度以上）
+            <input name="checkbox" type="checkbox" value="发热（37度以上）">发热（37度以上）
         </label>
         <label>
             <input type="checkbox" value="咳嗽">咳嗽
@@ -113,6 +115,7 @@
         <label>
             <input type="checkbox" value="感冒">感冒
         </label>
+        <input type="text" hidden id="health" name="healthy">
     </div>
 
     <div class="form-group">
@@ -151,9 +154,13 @@
         否
     </label>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary form-control" onclick="save()">提交</button>
+        <button type="submit" name="button" class="btn btn-primary form-control" onclick="save()">提交</button>
     </div>
     <p></p>
+
+    <!--<div class="form-group">-->
+        <!--<button type="button" class="btn btn-primary form-control" onclick="test()">测试</button>-->
+    <!--</div>-->
 </form>
 </body>
 <script>
@@ -168,5 +175,14 @@
 
     })
 
+    function save() {
+        var checked = [];
+        $('input:checkbox:checked').each(function() {
+            checked.push($(this).val());
+        });
+        var healthy = checked.join(",");
+        $("#health").val(healthy);
+
+    }
 </script>
 </html>
