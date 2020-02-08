@@ -23,58 +23,59 @@
                 </tr>
             </thead>
             <tbody id="tbody">
-                <!--<tr th:each="record:${records}">-->
-                    <!--<td class="text-center" th:text="${record.time}">2020-2-2</td>-->
-                    <!--<td class="text-center" th:text="${record.travel}">福州</td>-->
-                    <!--<td class="text-center" th:text="${record.backTime}">2020-2-5</td>-->
-                    <!--<td class="text-center" th:text="${record.healthy}">健康</td>-->
-                    <!--<td class="text-center" th:text="${record.remark}">无</td>-->
-                <!--</tr>-->
+                <tr th:each="record:${records}">
+                    <td class="text-center" th:text="${record.time}">2020-2-2</td>
+                    <td class="text-center" th:text="${record.travel}">福州</td>
+                    <td class="text-center" th:text="${record.backTime}">2020-2-5</td>
+                    <td class="text-center" th:text="${record.healthy}">健康</td>
+                    <td class="text-center" th:text="${record.heat}"></td>
+                    <td class="text-center" th:text="${record.remark}">无</td>
+                </tr>
             </tbody>
         </table>
     </div>
 </body>
 <script>
-    $(function () {
-        var userId = getParameter("userId");
-        $.get("isLogin",function (user) {
-            // var userId = user.id;
-            if (user.role == "admin"){
-                var data = {
-                    "userId" : userId
-                }
-            }
-            else {
-                var data={
-                    "userId" : user.id
-                };
-            }
-            $.ajax({
-                type:"post",// get或者post
-                url:"show",// 请求的url地址
-                data: data,//请求的参数
-                dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
-                beforeSend:function(){
-                    // 发送之前就会进入这个函数
-                    // return false 这个ajax就停止了不会发 如果没有return false 就会继续
-                },
-                success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
-                    var tr = '';
-                    for (var i = 0; i <data.length ; i++) {
-                        tr += '<tr>\n' +
-                            '                    <td class="text-center">'+data[i].time+'</td>\n' +
-                            '                    <td class="text-center">'+data[i].place+'</td>\n' +
-                            '                    <td class="text-center">'+data[i].backTime+'</td>\n' +
-                            '                    <td class="text-center">'+data[i].healthy+'</td>\n' +
-                            '                    <td class="text-center">'+data[i].heat+'</td>\n' +
-                            '                    <td class="text-center">'+data[i].remark+'</td>\n' +
-                            '                </tr>';
-                    }
-                    $("#tbody").html(tr);
-                }
-            })
-        })
-    })
+    // $(function () {
+    //     var userId = getParameter("userId");
+    //     $.get("isLogin",function (user) {
+    //         // var userId = user.id;
+    //         if (user.role == "admin"){
+    //             var data = {
+    //                 "userId" : userId
+    //             }
+    //         }
+    //         else {
+    //             var data={
+    //                 "userId" : user.id
+    //             };
+    //         }
+    //         $.ajax({
+    //             type:"post",// get或者post
+    //             url:"show",// 请求的url地址
+    //             data: data,//请求的参数
+    //             dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
+    //             beforeSend:function(){
+    //                 // 发送之前就会进入这个函数
+    //                 // return false 这个ajax就停止了不会发 如果没有return false 就会继续
+    //             },
+    //             success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+    //                 var tr = '';
+    //                 for (var i = 0; i <data.length ; i++) {
+    //                     tr += '<tr>\n' +
+    //                         '                    <td class="text-center">'+data[i].time+'</td>\n' +
+    //                         '                    <td class="text-center">'+data[i].place+'</td>\n' +
+    //                         '                    <td class="text-center">'+data[i].backTime+'</td>\n' +
+    //                         '                    <td class="text-center">'+data[i].healthy+'</td>\n' +
+    //                         '                    <td class="text-center">'+data[i].heat+'</td>\n' +
+    //                         '                    <td class="text-center">'+data[i].remark+'</td>\n' +
+    //                         '                </tr>';
+    //                 }
+    //                 $("#tbody").html(tr);
+    //             }
+    //         })
+    //     })
+    // })
 
     function getParameter(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");

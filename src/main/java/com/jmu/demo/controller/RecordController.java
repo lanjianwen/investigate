@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -43,9 +43,10 @@ public class RecordController {
     }
 
     @PostMapping("/show")
-    public  @ResponseBody List<Record> show(Integer userId, Model model){
+    public String show(Integer userId, Model model){
         List<Record> records = recordService.findByUserId(userId);
-        return records;
+        model.addAttribute("records",records);
+        return "list";
     }
 
     @GetMapping("/dailyForm")

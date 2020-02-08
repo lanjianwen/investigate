@@ -5,9 +5,20 @@
     <title>Title</title>
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{bootstrap/css/bootstrap.css}">
     <link rel="stylesheet" href="../static/css/admin.css" th:href="@{css/admin.css}">
+    <link rel="stylesheet" href="../static/css/myPage.css"  th:href="@{css/myPage.css}">
 
     <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
     <script src="../static/bootstrap/js/bootstrap.js" th:src="@{bootstrap/js/bootstrap.js}"></script>
+    <script src="../static/js/myPage.js" th:src="@{js/myPage.js}"></script>
+    <script type="text/javascript">
+        function loadData(num) {
+            teacher(num);
+            alert($("#PageCount").val());
+            $("#PageCount").val($("#PageCount").val());
+            // $("#PageCount").val(100);
+        }
+    </script>
+    <script src="../static/js/jqPaginator.min.js" th:src="@{js/jqPaginator.min.js}"></script>
 
 </head>
 <body>
@@ -25,6 +36,7 @@
         </div>
     </div>
 </nav>
+
 
 <div class="container-fluid">
     <div class="row">
@@ -56,6 +68,7 @@
 
                         </tbody>
                     </table>
+
                 </div>
                 <div class="tab-pane" id="tab2">
                     <table class="table table-striped">
@@ -95,52 +108,187 @@
                         </tbody>
                     </table>
                 </div>
+
             </div>
             </div>
         </div>
     </div>
 </div>
 
+
 </body>
+
+<!--<script>-->
+    <!--$(function () {-->
+        <!--var school ="";-->
+        <!--$.ajax({-->
+            <!--type:"get",// get或者post-->
+            <!--url:"findTeachers",// 请求的url地址-->
+            <!--dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了-->
+            <!--beforeSend:function(){-->
+                <!--// 发送之前就会进入这个函数-->
+                <!--// return false 这个ajax就停止了不会发 如果没有return false 就会继续-->
+            <!--},-->
+            <!--success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果-->
+                <!--alert(pageSize);-->
+                <!--var teacher = '';-->
+                <!--for (var i = 0; i < data.length; i++) {-->
+                    <!--if (data[i].isSchool == 1){-->
+                        <!--school = "是";-->
+                    <!--}-->
+                    <!--else {-->
+                        <!--school = "否";-->
+                    <!--}-->
+                    <!--teacher +='<tr>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].department+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].name+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].area+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].phone+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].sex+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].address+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+school+'</td>\n' +-->
+                        <!--'            <td class="text-center"><a href="list?userId='+data[i].userId+'">查看详情</a></td>\n' +-->
+                        <!--'        </tr>';-->
+                <!--}-->
+                <!--$("#teacher").html(teacher);-->
+            <!--}-->
+        <!--})-->
+
+        <!--$.ajax({-->
+            <!--type:"get",// get或者post-->
+            <!--url:"findStudents",// 请求的url地址-->
+            <!--dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了-->
+            <!--beforeSend:function(){-->
+                <!--// 发送之前就会进入这个函数-->
+                <!--// return false 这个ajax就停止了不会发 如果没有return false 就会继续-->
+            <!--},-->
+            <!--success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果-->
+                <!--var student = '';-->
+                <!--for (var i = 0; i < data.length; i++) {-->
+                    <!--if (data[i].isSchool == 1){-->
+                        <!--school = "是";-->
+                    <!--}-->
+                    <!--else {-->
+                        <!--school = "否";-->
+                    <!--}-->
+                    <!--student +='<tr>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].department+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].name+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].area+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].phone+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].sex+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].address+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+school+'</td>\n' +-->
+                        <!--'            <td class="text-center"><a href="list?userId='+data[i].userId+'">查看详情</a></td>\n' +-->
+                        <!--'        </tr>';-->
+                <!--}-->
+                <!--$("#student").html(student);-->
+            <!--}-->
+        <!--})-->
+
+        <!--$.ajax({-->
+            <!--type:"get",// get或者post-->
+            <!--url:"findResidents",// 请求的url地址-->
+            <!--dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了-->
+            <!--beforeSend:function(){-->
+                <!--// 发送之前就会进入这个函数-->
+                <!--// return false 这个ajax就停止了不会发 如果没有return false 就会继续-->
+            <!--},-->
+            <!--success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果-->
+                <!--var resident = '';-->
+                <!--for (var i = 0; i < data.length; i++) {-->
+                    <!--if (data[i].isSchool == 1){-->
+                        <!--school = "是";-->
+                    <!--}-->
+                    <!--else {-->
+                        <!--school = "否";-->
+                    <!--}-->
+                    <!--resident +='<tr>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].area+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].name+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].area+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].phone+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].sex+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+data[i].address+'</td>\n' +-->
+                        <!--'            <td class="text-center">'+school+'</td>\n' +-->
+                        <!--'            <td class="text-center"><a href="list?userId='+data[i].userId+'">查看详情</a></td>\n' +-->
+                        <!--'        </tr>';-->
+                <!--}-->
+                <!--$("#resident").html(resident);-->
+            <!--}-->
+        <!--})-->
+    <!--});-->
+<!--</script>-->
 
 <script>
     $(function () {
-        var school ="";
+
+       // teacher(1);
+       //  var data = {
+       //      "page" :1
+       //  };
+       //  $.ajax({
+       //      type:"post",// get或者post
+       //      url:"findTeachers",// 请求的url地址
+       //      data: data,
+       //      dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
+       //      success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+       //          $("#PageCount").val(data.totalElements);
+       //      }
+       //  });
+
+    });
+
+    function teacher(page) {
+        var data = {
+            "page" :page
+        };
         $.ajax({
-            type:"get",// get或者post
+            type:"post",// get或者post
             url:"findTeachers",// 请求的url地址
+            data: data,
             dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
             beforeSend:function(){
                 // 发送之前就会进入这个函数
                 // return false 这个ajax就停止了不会发 如果没有return false 就会继续
             },
             success:function(data){ // 成功拿到结果放到这个函数 data就是拿到的结果
+                $("#PageCount").val(data.totalElements);
+                alert($("#PageCount").val());
+                // data.totalElements
+                // alert($("#PageCount").val());
                 var teacher = '';
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].isSchool == 1){
+                for (var i = 0; i < data.content.length; i++) {
+                    if (data.content[i].isSchool == 1){
                         school = "是";
                     }
                     else {
                         school = "否";
                     }
                     teacher +='<tr>\n' +
-                        '            <td class="text-center">'+data[i].department+'</td>\n' +
-                        '            <td class="text-center">'+data[i].name+'</td>\n' +
-                        '            <td class="text-center">'+data[i].area+'</td>\n' +
-                        '            <td class="text-center">'+data[i].phone+'</td>\n' +
-                        '            <td class="text-center">'+data[i].sex+'</td>\n' +
-                        '            <td class="text-center">'+data[i].address+'</td>\n' +
+                        '            <td class="text-center">'+data.content[i].department+'</td>\n' +
+                        '            <td class="text-center">'+data.content[i].name+'</td>\n' +
+                        '            <td class="text-center">'+data.content[i].area+'</td>\n' +
+                        '            <td class="text-center">'+data.content[i].phone+'</td>\n' +
+                        '            <td class="text-center">'+data.content[i].sex+'</td>\n' +
+                        '            <td class="text-center">'+data.content[i].address+'</td>\n' +
                         '            <td class="text-center">'+school+'</td>\n' +
-                        '            <td class="text-center"><a href="list?userId='+data[i].userId+'">查看详情</a></td>\n' +
+                        '            <td class="text-center"><a href="list?userId='+data.content[i].userId+'">查看详情</a></td>\n' +
                         '        </tr>';
                 }
                 $("#teacher").html(teacher);
             }
         })
+    }
 
+    function student(page) {
+        var data = {
+            "page" :page
+        }
         $.ajax({
-            type:"get",// get或者post
+            type:"post",// get或者post
             url:"findStudents",// 请求的url地址
+            data: data,
             dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
             beforeSend:function(){
                 // 发送之前就会进入这个函数
@@ -169,10 +317,16 @@
                 $("#student").html(student);
             }
         })
+    }
 
+    function resident(page) {
+        var data = {
+            "page" :page
+        }
         $.ajax({
-            type:"get",// get或者post
+            type:"post",// get或者post
             url:"findResidents",// 请求的url地址
+            data: data,
             dataType:"json",//json写了jq会帮我们转换成数组或者对象 他已经用JSON.parse弄好了
             beforeSend:function(){
                 // 发送之前就会进入这个函数
@@ -201,7 +355,7 @@
                 $("#resident").html(resident);
             }
         })
-    });
+    }
 </script>
 
 </html>

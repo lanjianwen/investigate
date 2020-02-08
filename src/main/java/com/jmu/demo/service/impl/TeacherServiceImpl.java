@@ -6,6 +6,9 @@ import com.jmu.demo.repository.TeacherRepository;
 import com.jmu.demo.repository.UserRepository;
 import com.jmu.demo.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +21,11 @@ public class TeacherServiceImpl implements TeacherService {
     private UserRepository userRepository;
 
     @Override
-    public List<Teacher> findAll() {
-        return teacherRepository.findAll();
+    public Page<Teacher> findAll(Integer begin) {
+        Pageable pageable = PageRequest.of(begin,2);
+        Page<Teacher> page = teacherRepository.findAll(pageable);
+//        return teacherRepository.findAll();
+        return page;
     }
 
     @Override

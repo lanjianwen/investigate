@@ -3,7 +3,9 @@ package com.jmu.demo.controller;
 import com.jmu.demo.entity.Resident;
 import com.jmu.demo.service.ResidentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,9 +18,15 @@ public class ResidentController {
     private ResidentService residentService;
 
     @GetMapping("/findResidents")
-    public @ResponseBody
-    List<Resident> findAll(){
-        return residentService.findAll();
+    public String findAll(Integer page, Model model){
+        if (page == null || page == 0){
+            page = 1;
+        }
+         Page<Resident> residents = residentService.findAll(page-1);
+        model.addAttribute("residents",residents);
+        model.addAttribute("totalPages",residents.getTotalPages());
+        model.addAttribute("currentPage",page);
+        return "residentTable";
     }
 
     @PostMapping("/findOneResident")

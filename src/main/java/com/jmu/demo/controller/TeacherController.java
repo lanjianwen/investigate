@@ -3,6 +3,7 @@ package com.jmu.demo.controller;
 import com.jmu.demo.entity.Teacher;
 import com.jmu.demo.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +19,20 @@ public class TeacherController {
     private TeacherService teacherService;
 
 
+//    @PostMapping("/findTeachers")
+//    public @ResponseBody Page<Teacher> findAll(Integer page){
+//        return teacherService.findAll(page-1);
+//    }
     @GetMapping("/findTeachers")
-    public @ResponseBody List<Teacher> findAll(){
-        return teacherService.findAll();
+    public String findAll(Integer page, Model model){
+        if (page == null || page == 0){
+            page=1;
+        }
+        Page<Teacher> teachers = teacherService.findAll(page-1);
+        model.addAttribute("teachers",teachers.getContent());
+        model.addAttribute("totalPages",teachers.getTotalPages());
+        model.addAttribute("currentPage",page);
+        return "teacherTable";
     }
 
     @PostMapping("/findOneTeacher")
@@ -34,6 +46,18 @@ public class TeacherController {
 //        model.addAttribute("teacher",teacher);
 //        return "teacher";
 //    }
+
+    @GetMapping("/showTeachers")
+    public String showTeachers(Integer page, Model model){
+        if (page == null || page == 0){
+            page=1;
+        }
+        Page<Teacher> teachers = teacherService.findAll(page-1);
+        model.addAttribute("teachers",teachers.getContent());
+        model.addAttribute("totalPages",teachers.getTotalPages());
+        model.addAttribute("currentPage",page);
+        return "teacherList";
+    }
 
     @PostMapping("/updateTeacher")
     public @ResponseBody String updateTeacher(Teacher teacher){

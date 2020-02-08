@@ -7,6 +7,9 @@ import com.jmu.demo.repository.StudentRepository;
 import com.jmu.demo.repository.UserRepository;
 import com.jmu.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +22,10 @@ public class StudentServiceImpl implements StudentService {
     private UserRepository userRepository;
 
     @Override
-    public List<Student> findAll() {
-        return studentRepository.findAll();
+    public Page<Student> findAll(Integer begin) {
+        Pageable pageable = PageRequest.of(begin,10);
+        Page<Student> page = studentRepository.findAll(pageable);
+        return page;
     }
 
     @Override

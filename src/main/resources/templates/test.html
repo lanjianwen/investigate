@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" th:href="@{bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" href="../static/css/dashboard.css" th:href="@{css/dashboard.css}">
+</head>
+
+<body>
+<!--引入头部-->
+<div th:replace="commons/bar::topbar"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <!--引入侧边栏-->
+        <div th:replace="commons/bar::sidebar"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="sub-header">Section title</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">部门</th>
+                        <th class="text-center">姓名</th>
+                        <th class="text-center">籍贯</th>
+                        <th class="text-center">电话</th>
+                        <th class="text-center">性别</th>
+                        <th class="text-center">住址</th>
+                        <th class="text-center">是/否校内人员</th>
+                        <th class="text-center">目前健康状况</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="teacher:${teachers}">
+                        <td class="text-center" th:text="${teacher.department}"></td>
+                        <td class="text-center" th:text="${teacher.name}"></td>
+                        <td class="text-center" th:text="${teacher.area}"></td>
+                        <td class="text-center" th:text="${teacher.phone}"></td>
+                        <td class="text-center" th:text="${teacher.sex}"></td>
+                        <td class="text-center" th:text="${teacher.address}"></td>
+                        <td class="text-center" th:text="${teacher.isSchool}"></td>
+                        <td class="text-center">
+                            <form th:action="@{/show}" method="post">
+                                <input hidden th:value="${teacher.userId}" name="userId">
+                                <button type="submit" class="btn-sm">查看详情</button>
+                            </form>
+                        </td>
+                    </tr>
+
+                    <tr th:each="student:${students}">
+                        <td class="text-center" th:text="${student.department}"></td>
+                        <td class="text-center" th:text="${student.name}"></td>
+                        <td class="text-center" th:text="${student.area}"></td>
+                        <td class="text-center" th:text="${student.phone}"></td>
+                        <td class="text-center" th:text="${student.sex}"></td>
+                        <td class="text-center" th:text="${student.address}"></td>
+                        <td class="text-center" th:text="${student.isSchool}"></td>
+                        <td class="text-center">
+                            <form th:action="@{/show}" method="post">
+                                <input hidden th:value="${student.userId}" name="userId">
+                                <button type="submit" class="btn-sm">查看详情</button>
+                            </form>
+                        </td>
+                    </tr>
+
+                    <tr th:each="resident:${residents}">
+                        <td class="text-center" th:text="${resident.department}"></td>
+                        <td class="text-center" th:text="${resident.name}"></td>
+                        <td class="text-center" th:text="${resident.area}"></td>
+                        <td class="text-center" th:text="${resident.phone}"></td>
+                        <td class="text-center" th:text="${resident.sex}"></td>
+                        <td class="text-center" th:text="${resident.address}"></td>
+                        <td class="text-center" th:text="${resident.isSchool}"></td>
+                        <td class="text-center">
+                            <form th:action="@{/show}" method="post">
+                                <input hidden th:value="${resident.userId}" name="userId">
+                                <button type="submit" class="btn-sm">查看详情</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

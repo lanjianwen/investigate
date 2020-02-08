@@ -8,12 +8,13 @@
 
     <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
     <script src="../static/bootstrap/js/bootstrap.js" th:src="@{bootstrap/js/bootstrap.js}"></script>
-    <!--<script src="../static/bootstrap/js/bootstrapValidator.min.js" th:src="@{bootstrap/js/bootstrapValidator.min.js}"></script>-->
-
+    <script src="../static/bootstrap/js/bootstrapValidator.min.js" th:src="@{bootstrap/js/bootstrapValidator.min.js}"></script>
 </head>
 <body>
-<form class="form-horizontal" role="form" id="form" method="post" th:action="@{/addRecord}">
-    <input id="userId" type="number" value="5" hidden name="userId">
+
+<form class="form-horizontal" role="form" id="submitForm" method="post" th:action="@{/addRecord}">
+    <!--<input id="userId" type="number" value="5" hidden name="userId">-->
+    <input id="userId" type="text" value="5" hidden name="userId">
     <input id="role" type="text" value="5" hidden name="role">
     <div class="form-group">
         <label class="col-sm-2 control-label">姓名</label>

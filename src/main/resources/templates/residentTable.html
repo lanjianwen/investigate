@@ -9,79 +9,81 @@
     <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
     <script src="../static/bootstrap/js/bootstrap.js" th:src="@{bootstrap/js/bootstrap.js}"></script>
 </head>
-<body class="text-center">
-<h3></h3>
-<!--<table class="table">-->
-    <!--<tr>-->
-        <!--<th rowspan="2" class="text-center">部门</th>-->
-        <!--<th rowspan="2" class="text-center">姓名</th>-->
-        <!--<th rowspan="2" class="text-center">籍贯</th>-->
-        <!--<th rowspan="2" class="text-center">电话</th>-->
-        <!--<th rowspan="2" class="text-center">是/否未离开过厦门</th>-->
-        <!--<th colspan="4" class="text-center">曾离开厦门后去向情况</th>-->
-        <!--<th rowspan="2" class="text-center">有/无接触湖北疫区人员</th>-->
-        <!--<th rowspan="2" class="text-center">健康状况</th>-->
-    <!--</tr>-->
-    <!--<tr>-->
-        <!--<th class="text-center">省</th>-->
-        <!--<th class="text-center">市/县</th>-->
-        <!--<th class="text-center">已返厦时间</th>-->
-        <!--<th class="text-center">预计返厦时间</th>-->
-    <!--</tr>-->
-    <!--<tbody id="teacher">-->
-        <!--<tr>-->
-            <!--<td class="text-center"></td>-->
-            <!--<td class="text-center"></td>-->
-            <!--<td class="text-center"></td>-->
-            <!--<td class="text-center"></td>-->
-            <!--<td class="text-center"></td>-->
-            <!--<td class="text-center"></td>-->
-            <!--<td class="text-center"></td>-->
-            <!--<td class="text-center"></td>-->
-            <!--<td class="text-center"></td>-->
-            <!--<td class="text-center"></td>-->
-        <!--</tr>-->
-    <!--</tbody>-->
-<!--</table>-->
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th class="text-center">部门</th>
-            <th class="text-center">姓名</th>
-            <th class="text-center">籍贯</th>
-            <th class="text-center">电话</th>
-            <th class="text-center">性别</th>
-            <th class="text-center">住址</th>
-            <th class="text-center">是/否校内人员</th>
-            <th class="text-center">目前健康状况</th>
-        </tr>
-        </thead>
-        <tbody id="teacher">
-        <tr th:each="teacher:${teachers}">
-            <td class="text-center" th:text="${teacher.department}"></td>
-            <td class="text-center" th:text="${teacher.name}"></td>
-            <td class="text-center" th:text="${teacher.area}"></td>
-            <td class="text-center" th:text="${teacher.phone}"></td>
-            <td class="text-center" th:text="${teacher.sex}"></td>
-            <td class="text-center" th:text="${teacher.address}"></td>
-            <td class="text-center" th:text="${teacher.isSchool}"></td>
-            <td class="text-center">
-                <form th:action="@{/show}" method="post">
-                    <input hidden th:value="${teacher.userId}" name="userId">
-                    <button type="submit" class="btn-sm">查看详情</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<body>
+<!--引入头部-->
+<div th:replace="commons/bar::topbar"></div>
 
+
+<div class="container-fluid">
+    <div class="row">
+        <!--引入侧边栏-->
+        <div th:replace="commons/bar::sidebar"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="sub-header">Section title</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">片区</th>
+                        <th class="text-center">姓名</th>
+                        <th class="text-center">籍贯</th>
+                        <th class="text-center">电话</th>
+                        <th class="text-center">性别</th>
+                        <th class="text-center">住址</th>
+                        <th class="text-center">是/否校内人员</th>
+                        <th class="text-center">目前健康状况</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="resident:${residents}">
+                        <td class="text-center" th:text="${resident.area}"></td>
+                        <td class="text-center" th:text="${resident.name}"></td>
+                        <td class="text-center" th:text="${resident.area}"></td>
+                        <td class="text-center" th:text="${resident.phone}"></td>
+                        <td class="text-center" th:text="${resident.sex}"></td>
+                        <td class="text-center" th:text="${resident.address}"></td>
+                        <td class="text-center" th:text="${resident.isSchool}"></td>
+                        <td class="text-center">
+                            <form th:action="@{/show}" method="post">
+                                <input hidden th:value="${resident.userId}" name="userId">
+                                <button type="submit" class="btn-sm">查看详情</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">上一页</span>
+                        </a>
+                    </li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">下一页</span>
+                        </a>
+                    </li>
+                </ul>
+                <input type="hidden" id="totalPages" th:value="${totalPages}">
+                <input type="hidden" id="currentPage" th:value="${currentPage}">
+            </nav>
+        </div>
+    </div>
+</div>
 </body>
+
 <script>
     $(function () {
         var currentPage = $("#currentPage").val();
         var totalPages = $("#totalPages").val();
-        var pageSize = $("#pageSize").val();
         var li = '';
         var beforePage = currentPage - 1;
         if (beforePage <= 0){
@@ -89,13 +91,13 @@
         }
         if (currentPage != 1){
             li += '<li>\n' +
-                '                        <a href="findTeachers?page=1" aria-label="Previous">\n' +
+                '                        <a href="findResidents?page=1" aria-label="Previous">\n' +
                 '                            <span aria-hidden="true">首页</span>\n' +
                 '                        </a>\n' +
                 '                    </li>';
 
             li += '<li>\n' +
-                '                        <a href="findTeachers?page='+beforePage+'" aria-label="Previous">\n' +
+                '                        <a href="findResidents?page='+beforePage+'" aria-label="Previous">\n' +
                 '                            <span aria-hidden="true">上一页</span>\n' +
                 '                        </a>\n' +
                 '                    </li>';
@@ -142,7 +144,7 @@
                     '    </li>';
             }
             else {
-                li += '<li><a href="findTeachers?page='+i+'">'+i+'</a></li>';
+                li += '<li><a href="findResidents?page='+i+'">'+i+'</a></li>';
             }
 
         }
@@ -165,12 +167,12 @@
         }
         else {
             li += '<li>\n' +
-                '                        <a href="findTeachers?page='+nextPage+'" aria-label="Next">\n' +
+                '                        <a href="findResidents?page='+nextPage+'" aria-label="Next">\n' +
                 '                            <span aria-hidden="true">下一页</span>\n' +
                 '                        </a>\n' +
                 '                    </li>';
             li += '<li>\n' +
-                '                        <a href="findTeachers?page='+totalPages+'" aria-label="Next">\n' +
+                '                        <a href="findResidents?page='+totalPages+'" aria-label="Next">\n' +
                 '                            <span aria-hidden="true">尾页</span>\n' +
                 '                        </a>\n' +
                 '                    </li>';
@@ -178,4 +180,5 @@
         $(".pagination").html(li);
     })
 </script>
+
 </html>

@@ -1,11 +1,12 @@
 package com.jmu.demo.service;
 
 import com.jmu.demo.entity.Student;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface StudentService {
-    List<Student> findAll();
+    Page<Student> findAll(Integer page);
 
     Student findByUserId(Integer id);
 

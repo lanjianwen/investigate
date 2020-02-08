@@ -42,19 +42,10 @@ public class UserController {
         return "resident";
     }
 
-    @GetMapping("/showTeachers")
-    public String showTeachers(){
-        return "teacherList";
-    }
-
-    @GetMapping("/showStudents")
-    public String showStudents(){
-        return "studentList";
-    }
 
     @GetMapping("/admin")
     public String admin(){
-        return "admin";
+        return "redirect:/findTeachers";
     }
 
     @GetMapping("/registerForm")
@@ -95,4 +86,9 @@ public class UserController {
         }
 
     }
+
+//    @GetMapping("/admin")
+//    public String test(){
+//        return "redirect:/findTeachers";
+//    }
 }

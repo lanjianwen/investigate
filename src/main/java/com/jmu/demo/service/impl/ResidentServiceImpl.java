@@ -1,11 +1,16 @@
 package com.jmu.demo.service.impl;
 
 import com.jmu.demo.entity.Resident;
+import com.jmu.demo.entity.Student;
+import com.jmu.demo.entity.Teacher;
 import com.jmu.demo.entity.User;
 import com.jmu.demo.repository.ResidentRepository;
 import com.jmu.demo.repository.UserRepository;
 import com.jmu.demo.service.ResidentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +23,10 @@ public class ResidentServiceImpl implements ResidentService {
     private UserRepository userRepository;
 
     @Override
-    public List<Resident> findAll() {
-        return residentRepository.findAll();
+    public Page<Resident> findAll(Integer begin) {
+        Pageable pageable = PageRequest.of(begin,10);
+        Page<Resident> page = residentRepository.findAll(pageable);
+        return page;
     }
 
     @Override
